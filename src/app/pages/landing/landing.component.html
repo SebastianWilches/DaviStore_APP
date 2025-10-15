@@ -3,22 +3,56 @@
   <section class="hero-section">
     <div class="hero-content">
       <div class="hero-text">
-        <h1 class="hero-title">Bienvenido a DaviStore</h1>
+        <div class="hero-badge">
+          <mat-icon>local_fire_department</mat-icon>
+          <span>La mejor experiencia de compra online</span>
+        </div>
+        
+        <h1 class="hero-title">
+          Descubre tu
+          <span class="highlight">tienda ideal</span>
+          para comprar online
+        </h1>
+        
         <p class="hero-subtitle">
-          Tu tienda online de confianza. Encuentra los mejores productos a los mejores precios.
+          Encuentra los mejores productos, marcas reconocidas y ofertas increíbles. 
+          Tu satisfacción es nuestra prioridad.
         </p>
+        
         <div class="hero-actions">
-          <button mat-raised-button color="primary" class="cta-button" (click)="onShopNow()">
+          <button mat-raised-button class="cta-button" (click)="onShopNow()">
             <mat-icon>shopping_bag</mat-icon>
-            Comprar Ahora
+            Explorar Productos
           </button>
-          <button mat-stroked-button color="primary" class="cta-button-secondary" routerLink="/categories">
+          <button mat-stroked-button class="cta-button-secondary" routerLink="/categories">
             Ver Categorías
           </button>
         </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">10K+</span>
+            <span class="stat-label">Productos</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">5K+</span>
+            <span class="stat-label">Clientes Felices</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">98%</span>
+            <span class="stat-label">Satisfacción</span>
+          </div>
+        </div>
       </div>
+
       <div class="hero-image">
-        <mat-icon class="hero-icon">shopping_cart</mat-icon>
+        <div class="hero-illustration">
+          <!-- Aquí puedes agregar tu imagen de stock -->
+          <!-- <img src="assets/images/hero-shopping.jpg" alt="Compra online"> -->
+          
+          <!-- Icono temporal mientras agregas imagen -->
+          <mat-icon class="hero-icon">shopping_cart</mat-icon>
+        </div>
       </div>
     </div>
   </section>
@@ -26,7 +60,11 @@
   <!-- Features Section -->
   <section class="features-section">
     <div class="section-container">
-      <h2 class="section-title">¿Por qué elegir DaviStore?</h2>
+      <h2 class="section-title">¿Por qué elegirnos?</h2>
+      <p class="section-subtitle">
+        Ofrecemos la mejor experiencia de compra con beneficios exclusivos para ti
+      </p>
+      
       <div class="features-grid">
         <mat-card class="feature-card" *ngFor="let feature of features">
           <mat-card-content>
@@ -45,18 +83,21 @@
   <section class="categories-section">
     <div class="section-container">
       <h2 class="section-title">Explora por Categorías</h2>
+      <p class="section-subtitle">
+        Encuentra exactamente lo que necesitas navegando por nuestras categorías
+      </p>
+      
       <div class="categories-grid">
         <mat-card 
           class="category-card" 
           *ngFor="let category of categories"
-          (click)="onExploreCategory(category.name)"
-          [style.borderTop]="'4px solid ' + category.color">
+          (click)="onExploreCategory(category.name)">
           <mat-card-content>
             <div class="category-icon-wrapper" [style.backgroundColor]="category.color + '20'">
               <mat-icon class="category-icon" [style.color]="category.color">{{ category.icon }}</mat-icon>
             </div>
             <h3 class="category-name">{{ category.name }}</h3>
-            <button mat-button color="primary">
+            <button mat-button>
               Explorar
               <mat-icon>arrow_forward</mat-icon>
             </button>
@@ -69,16 +110,17 @@
   <!-- Call to Action Section -->
   <section class="cta-section">
     <div class="cta-container">
-      <h2 class="cta-title">¿Listo para comenzar a comprar?</h2>
+      <h2 class="cta-title">¿Listo para empezar?</h2>
       <p class="cta-description">
-        Únete a miles de clientes satisfechos y descubre una nueva forma de comprar online
+        Únete a nuestra comunidad y disfruta de ofertas exclusivas, 
+        envíos rápidos y la mejor atención al cliente
       </p>
       <div class="cta-buttons">
-        <button mat-raised-button color="accent" class="cta-button-large" routerLink="/register">
+        <button mat-raised-button class="cta-button-large" routerLink="/register">
           Crear Cuenta Gratis
         </button>
-        <button mat-button class="cta-button-text" routerLink="/products">
-          Explorar Productos
+        <button mat-stroked-button class="cta-button-text" routerLink="/products">
+          Explorar sin Cuenta
         </button>
       </div>
     </div>
