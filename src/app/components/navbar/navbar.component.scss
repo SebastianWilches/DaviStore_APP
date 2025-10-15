@@ -170,6 +170,22 @@ $white: #FFFFFF;
       .mat-icon {
         color: #5A5A5A;
       }
+
+      &.admin-menu-item {
+        background: linear-gradient(135deg, rgba(227, 30, 45, 0.1) 0%, rgba(255, 107, 122, 0.08) 100%);
+        border: 1px solid rgba(227, 30, 45, 0.2);
+        font-weight: 600;
+        color: $primary-red;
+
+        &:hover {
+          background: linear-gradient(135deg, rgba(227, 30, 45, 0.15) 0%, rgba(255, 107, 122, 0.12) 100%);
+          transform: translateX(2px);
+        }
+
+        .mat-icon {
+          color: $primary-red;
+        }
+      }
     }
   }
 }

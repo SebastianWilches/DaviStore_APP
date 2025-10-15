@@ -48,6 +48,10 @@
             <mat-icon>receipt_long</mat-icon>
             <span>Mis Órdenes</span>
           </button>
+          <button mat-menu-item routerLink="/admin" *ngIf="isAdmin" class="admin-menu-item">
+            <mat-icon>shield</mat-icon>
+            <span>Panel Admin</span>
+          </button>
           <mat-divider></mat-divider>
           <button mat-menu-item (click)="onLogout()">
             <mat-icon>logout</mat-icon>

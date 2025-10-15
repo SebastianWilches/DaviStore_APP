@@ -11,10 +11,17 @@ export interface Order {
   shipping_city: string;
   shipping_country: string;
   shipping_postal_code: string;
+  payment_method?: string;
   created_at: string;
   updated_at: string;
   items: OrderItem[];
   payment?: Payment;
+  user?: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+  };
 }
 
 /**

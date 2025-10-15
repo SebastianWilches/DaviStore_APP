@@ -13,7 +13,15 @@ export interface Product {
   is_active: boolean;
   created_at: string;
   updated_at: string;
-  category?: Category;
+  // Datos de categoría que devuelve el backend
+  category_name?: string;
+  category_slug?: string;
+  // Objeto category opcional (para compatibilidad)
+  category?: {
+    id?: string;
+    name?: string;
+    slug?: string;
+  };
 }
 
 /**

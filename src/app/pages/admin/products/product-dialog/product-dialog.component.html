@@ -1,0 +1,119 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">
+    <mat-icon>{{ isEditMode ? 'edit' : 'add_shopping_cart' }}</mat-icon>
+    {{ isEditMode ? 'Editar Producto' : 'Nuevo Producto' }}
+  </h2>
+
+  <mat-dialog-content class="dialog-content">
+    <form [formGroup]="productForm" class="product-form">
+      
+      <!-- Nombre -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre del Producto</mat-label>
+        <input matInput formControlName="name" placeholder="Ej: Laptop Dell XPS 13" required>
+        <mat-icon matPrefix>shopping_bag</mat-icon>
+        <mat-error *ngIf="productForm.get('name')?.hasError('required')">
+          El nombre es requerido
+        </mat-error>
+        <mat-error *ngIf="productForm.get('name')?.hasError('minlength')">
+          Mínimo 2 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Descripción -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción</mat-label>
+        <textarea 
+          matInput 
+          formControlName="description" 
+          placeholder="Descripción detallada del producto"
+          rows="3"></textarea>
+        <mat-icon matPrefix>description</mat-icon>
+      </mat-form-field>
+
+      <!-- SKU -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>SKU</mat-label>
+        <input matInput formControlName="sku" placeholder="Ej: LAPTOP-DELL-XPS13" required>
+        <mat-icon matPrefix>tag</mat-icon>
+        <mat-hint *ngIf="isEditMode">El SKU no se puede modificar</mat-hint>
+        <mat-error *ngIf="productForm.get('sku')?.hasError('required')">
+          El SKU es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Precio y Stock en la misma fila -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Precio</mat-label>
+          <input matInput type="number" formControlName="price" placeholder="0.00" required min="0" step="0.01">
+          <span matPrefix>$&nbsp;</span>
+          <mat-error *ngIf="productForm.get('price')?.hasError('required')">
+            El precio es requerido
+          </mat-error>
+          <mat-error *ngIf="productForm.get('price')?.hasError('min')">
+            El precio debe ser mayor o igual a 0
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Stock Inicial</mat-label>
+          <input matInput type="number" formControlName="stock_quantity" placeholder="0" required min="0" step="1">
+          <mat-icon matPrefix>inventory</mat-icon>
+          <mat-error *ngIf="productForm.get('stock_quantity')?.hasError('required')">
+            El stock es requerido
+          </mat-error>
+          <mat-error *ngIf="productForm.get('stock_quantity')?.hasError('min')">
+            El stock debe ser mayor o igual a 0
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Categoría -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Categoría</mat-label>
+        <mat-select formControlName="category_id" placeholder="Selecciona una categoría" required>
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matPrefix>category</mat-icon>
+        <mat-error *ngIf="productForm.get('category_id')?.hasError('required')">
+          La categoría es requerida
+        </mat-error>
+      </mat-form-field>
+
+      <!-- URL de Imagen -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>URL de Imagen</mat-label>
+        <input matInput formControlName="image_url" placeholder="https://ejemplo.com/imagen.jpg">
+        <mat-icon matPrefix>image</mat-icon>
+        <mat-hint>URL pública de la imagen del producto</mat-hint>
+      </mat-form-field>
+
+      <!-- Estado Activo -->
+      <div class="checkbox-container">
+        <mat-checkbox formControlName="is_active" color="primary">
+          Producto Activo
+        </mat-checkbox>
+        <p class="checkbox-hint">
+          Los productos inactivos no aparecerán en el catálogo público
+        </p>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancel()" type="button">
+      Cancelar
+    </button>
+    <button 
+      mat-raised-button 
+      (click)="onSubmit()" 
+      [disabled]="!productForm.valid"
+      class="submit-button">
+      <mat-icon>{{ isEditMode ? 'save' : 'add_shopping_cart' }}</mat-icon>
+      {{ isEditMode ? 'Guardar Cambios' : 'Crear Producto' }}
+    </button>
+  </mat-dialog-actions>
+</div>
