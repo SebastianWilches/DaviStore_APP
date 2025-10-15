@@ -1,0 +1,170 @@
+<div class="auth-container">
+  <div class="auth-content">
+    <!-- Lado izquierdo - Branding -->
+    <div class="auth-brand">
+      <div class="brand-content">
+        <div class="brand-logo">
+          <mat-icon class="brand-icon">shopping_cart</mat-icon>
+          <h1 class="brand-name">DaviStore</h1>
+        </div>
+        <h2 class="brand-welcome">¡Únete a DaviStore!</h2>
+        <p class="brand-description">
+          Crea tu cuenta y accede a miles de productos, ofertas exclusivas y envíos rápidos
+        </p>
+        
+        <div class="brand-features">
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Registro rápido y seguro</span>
+          </div>
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Ofertas exclusivas</span>
+          </div>
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Seguimiento de pedidos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lado derecho - Formulario -->
+    <div class="auth-form-container">
+      <mat-card class="auth-card">
+        <mat-card-content>
+          <div class="form-header">
+            <h2 class="form-title">Crear Cuenta</h2>
+            <p class="form-subtitle">Completa el formulario para registrarte</p>
+          </div>
+
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+            <!-- First Name -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nombre</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="first_name"
+                placeholder="Tu nombre"
+                autocomplete="given-name">
+              <mat-icon matPrefix>person</mat-icon>
+              <mat-error *ngIf="registerForm.get('first_name')?.invalid">
+                {{ getErrorMessage('first_name') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Last Name -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Apellido</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="last_name"
+                placeholder="Tu apellido"
+                autocomplete="family-name">
+              <mat-icon matPrefix>person_outline</mat-icon>
+              <mat-error *ngIf="registerForm.get('last_name')?.invalid">
+                {{ getErrorMessage('last_name') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Email -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Correo Electrónico</mat-label>
+              <input
+                matInput
+                type="email"
+                formControlName="email"
+                placeholder="tu@email.com"
+                autocomplete="email">
+              <mat-icon matPrefix>email</mat-icon>
+              <mat-error *ngIf="registerForm.get('email')?.invalid">
+                {{ getErrorMessage('email') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Phone (opcional) -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Teléfono (opcional)</mat-label>
+              <input
+                matInput
+                type="tel"
+                formControlName="phone"
+                placeholder="+1234567890"
+                autocomplete="tel">
+              <mat-icon matPrefix>phone</mat-icon>
+              <mat-error *ngIf="registerForm.get('phone')?.invalid">
+                {{ getErrorMessage('phone') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Password -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Contraseña</mat-label>
+              <input
+                matInput
+                [type]="hidePassword ? 'password' : 'text'"
+                formControlName="password"
+                placeholder="Mínimo 8 caracteres"
+                autocomplete="new-password">
+              <mat-icon matPrefix>lock</mat-icon>
+              <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              <mat-error *ngIf="registerForm.get('password')?.invalid">
+                {{ getErrorMessage('password') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Confirm Password -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Confirmar Contraseña</mat-label>
+              <input
+                matInput
+                [type]="hideConfirmPassword ? 'password' : 'text'"
+                formControlName="confirmPassword"
+                placeholder="Repite tu contraseña"
+                autocomplete="new-password">
+              <mat-icon matPrefix>lock_outline</mat-icon>
+              <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="hideConfirmPassword = !hideConfirmPassword"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hideConfirmPassword">
+                <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              <mat-error *ngIf="registerForm.get('confirmPassword')?.invalid || registerForm.hasError('passwordMismatch')">
+                {{ getErrorMessage('confirmPassword') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Submit Button -->
+            <button
+              mat-raised-button
+              type="submit"
+              class="submit-button"
+              [disabled]="isLoading">
+              <span *ngIf="!isLoading">Crear Cuenta</span>
+              <mat-spinner *ngIf="isLoading" diameter="20" class="button-spinner"></mat-spinner>
+            </button>
+
+            <!-- Login Link -->
+            <div class="login-link">
+              <span>¿Ya tienes cuenta?</span>
+              <a routerLink="/login" class="link-accent">Inicia sesión aquí</a>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

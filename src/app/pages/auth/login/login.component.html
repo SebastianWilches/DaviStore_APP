@@ -1,0 +1,106 @@
+<div class="auth-container">
+  <div class="auth-content">
+    <!-- Lado izquierdo - Branding -->
+    <div class="auth-brand">
+      <div class="brand-content">
+        <div class="brand-logo">
+          <mat-icon class="brand-icon">shopping_cart</mat-icon>
+          <h1 class="brand-name">DaviStore</h1>
+        </div>
+        <h2 class="brand-welcome">¡Bienvenido de nuevo!</h2>
+        <p class="brand-description">
+          Inicia sesión para acceder a tu cuenta y disfrutar de todas las ventajas de DaviStore
+        </p>
+        
+        <div class="brand-features">
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Compras seguras</span>
+          </div>
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Envíos rápidos</span>
+          </div>
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Soporte 24/7</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lado derecho - Formulario -->
+    <div class="auth-form-container">
+      <mat-card class="auth-card">
+        <mat-card-content>
+          <div class="form-header">
+            <h2 class="form-title">Iniciar Sesión</h2>
+            <p class="form-subtitle">Ingresa tus credenciales para continuar</p>
+          </div>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+            <!-- Email -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Correo Electrónico</mat-label>
+              <input
+                matInput
+                type="email"
+                formControlName="email"
+                placeholder="tu@email.com"
+                autocomplete="email">
+              <mat-icon matPrefix>email</mat-icon>
+              <mat-error *ngIf="loginForm.get('email')?.invalid">
+                {{ getErrorMessage('email') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Password -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Contraseña</mat-label>
+              <input
+                matInput
+                [type]="hidePassword ? 'password' : 'text'"
+                formControlName="password"
+                placeholder="Tu contraseña"
+                autocomplete="current-password">
+              <mat-icon matPrefix>lock</mat-icon>
+              <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              <mat-error *ngIf="loginForm.get('password')?.invalid">
+                {{ getErrorMessage('password') }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Forgot Password Link -->
+            <div class="forgot-password">
+              <a routerLink="/forgot-password" class="forgot-link">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              mat-raised-button
+              type="submit"
+              class="submit-button"
+              [disabled]="isLoading">
+              <span *ngIf="!isLoading">Iniciar Sesión</span>
+              <mat-spinner *ngIf="isLoading" diameter="20" class="button-spinner"></mat-spinner>
+            </button>
+
+            <!-- Register Link -->
+            <div class="register-link">
+              <span>¿No tienes cuenta?</span>
+              <a routerLink="/register" class="link-accent">Regístrate aquí</a>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

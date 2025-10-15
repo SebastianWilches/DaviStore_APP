@@ -1,0 +1,361 @@
+$primary-red: #E31E2D;
+$primary-red-light: #FF4757;
+$secondary-red: #FF6B7A;
+$dark-text: #1A1A1A;
+$gray-text: #5A5A5A;
+$light-gray: #F5F5F7;
+$white: #FFFFFF;
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FFF5F5 0%, #FFEBEB 50%, #FFF5F5 100%);
+  padding: 20px;
+  margin-top: 70px;
+}
+
+.auth-content {
+  max-width: 1100px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  background: $white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+// ==========================================
+// LADO IZQUIERDO - BRANDING
+// ==========================================
+.auth-brand {
+  background: linear-gradient(135deg, $primary-red 0%, $secondary-red 100%);
+  color: $white;
+  padding: 60px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -200px;
+    right: -200px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: -150px;
+    left: -150px;
+  }
+}
+
+.brand-content {
+  position: relative;
+  z-index: 1;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+
+  .brand-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .brand-name {
+    font-size: 36px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -1px;
+  }
+}
+
+.brand-welcome {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.brand-description {
+  font-size: 16px;
+  line-height: 1.7;
+  opacity: 0.95;
+  margin: 0 0 40px 0;
+}
+
+.brand-features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+// ==========================================
+// LADO DERECHO - FORMULARIO
+// ==========================================
+.auth-form-container {
+  padding: 60px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  max-height: calc(100vh - 140px);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+
+  mat-card-content {
+    padding: 0 !important;
+  }
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  .form-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: $dark-text;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .form-subtitle {
+    font-size: 15px;
+    color: $gray-text;
+    margin: 0;
+  }
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  .full-width {
+    width: 100%;
+  }
+
+  mat-form-field {
+    ::ng-deep {
+      .mat-mdc-text-field-wrapper {
+        border-radius: 12px;
+      }
+
+      .mat-mdc-form-field-icon-prefix {
+        padding-left: 12px;
+        color: $gray-text;
+      }
+
+      .mat-mdc-form-field-focus-overlay {
+        background-color: transparent;
+      }
+
+      &.mat-focused {
+        .mat-mdc-form-field-icon-prefix {
+          color: $primary-red;
+        }
+      }
+    }
+  }
+
+  .submit-button {
+    height: 52px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, $primary-red 0%, $secondary-red 100%) !important;
+    color: $white !important;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: none;
+    box-shadow: 0 4px 12px rgba(227, 30, 45, 0.3);
+    transition: all 0.3s ease;
+    margin-top: 8px;
+
+    &:hover:not([disabled]) {
+      box-shadow: 0 6px 16px rgba(227, 30, 45, 0.4);
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .button-spinner {
+      ::ng-deep circle {
+        stroke: $white;
+      }
+    }
+  }
+
+  .login-link {
+    text-align: center;
+    font-size: 14px;
+    color: $gray-text;
+    margin-top: 8px;
+
+    span {
+      margin-right: 6px;
+    }
+
+    .link-accent {
+      color: $primary-red;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $primary-red-light;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// ==========================================
+// ANIMACIONES
+// ==========================================
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ==========================================
+// RESPONSIVE
+// ==========================================
+@media (max-width: 968px) {
+  .auth-content {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-brand {
+    padding: 50px 40px;
+
+    .brand-logo {
+      .brand-name {
+        font-size: 32px;
+      }
+    }
+
+    .brand-welcome {
+      font-size: 28px;
+    }
+
+    .brand-description {
+      font-size: 15px;
+    }
+  }
+
+  .auth-form-container {
+    padding: 50px 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-container {
+    padding: 20px 16px;
+    margin-top: 64px;
+  }
+
+  .auth-content {
+    border-radius: 16px;
+  }
+
+  .auth-brand {
+    padding: 40px 32px;
+
+    .brand-logo {
+      .brand-icon {
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
+      }
+
+      .brand-name {
+        font-size: 28px;
+      }
+    }
+
+    .brand-welcome {
+      font-size: 24px;
+    }
+
+    .brand-features {
+      gap: 12px;
+
+      .feature-item {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .auth-form-container {
+    padding: 40px 32px;
+  }
+
+  .form-header {
+    .form-title {
+      font-size: 28px;
+    }
+  }
+
+  .auth-form {
+    gap: 16px;
+  }
+}
+
+// ==========================================
+// OVERRIDE MATERIAL STYLES
+// ==========================================
+::ng-deep {
+  .error-snackbar {
+    background: $primary-red !important;
+    color: $white !important;
+  }
+}
+
