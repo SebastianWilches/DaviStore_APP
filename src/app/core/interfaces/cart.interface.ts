@@ -15,7 +15,14 @@ export interface CartItem {
   price_at_addition: number;
   created_at: string;
   updated_at: string;
-  product: Product;
+  // Campos del producto incluidos directamente
+  product_name: string;
+  product_sku: string;
+  product_image_url: string | null;
+  product_stock: number;
+  current_price: number;
+  // Objeto product opcional para compatibilidad
+  product?: Product;
 }
 
 /**
@@ -28,10 +35,12 @@ export interface Cart {
   created_at: string;
   updated_at: string;
   items: CartItem[];
+  total_items: number;
   subtotal: number;
-  tax: number;
-  shipping_cost: number;
-  total: number;
+  // Campos opcionales para compatibilidad
+  tax?: number;
+  shipping_cost?: number;
+  total?: number;
 }
 
 /**

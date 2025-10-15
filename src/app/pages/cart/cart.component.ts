@@ -9,6 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../core/services/cart.service';
 import { Cart, CartItem } from '../../core/interfaces';
@@ -26,7 +27,8 @@ import { Cart, CartItem } from '../../core/interfaces';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatTooltipModule
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
@@ -67,8 +69,8 @@ export class CartComponent implements OnInit {
       return;
     }
 
-    if (quantity > item.product.stock_quantity) {
-      this.showMessage(`Solo hay ${item.product.stock_quantity} unidades disponibles`, 'warning');
+    if (quantity > item.product_stock) {
+      this.showMessage(`Solo hay ${item.product_stock} unidades disponibles`, 'warning');
       return;
     }
 
@@ -90,7 +92,7 @@ export class CartComponent implements OnInit {
   }
 
   removeItem(item: CartItem): void {
-    if (!confirm(`¿Eliminar "${item.product.name}" del carrito?`)) {
+    if (!confirm(`¿Eliminar "${item.product_name}" del carrito?`)) {
       return;
     }
 

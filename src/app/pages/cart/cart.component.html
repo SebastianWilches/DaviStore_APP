@@ -30,7 +30,7 @@
     <div class="cart-items">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Productos ({{ cart.items.length }})</mat-card-title>
+          <mat-card-title>Productos ({{ cart.total_items }})</mat-card-title>
           <button mat-button color="warn" (click)="clearCart()" class="clear-cart-btn">
             <mat-icon>delete_sweep</mat-icon>
             Vaciar Carrito
@@ -41,67 +41,29 @@
 
         <mat-card-content>
           <div *ngFor="let item of cart.items; let last = last" class="cart-item">
-            <div class="item-image">
-              <img 
-                [src]="item.product.image_url || 'assets/images/product-placeholder.png'" 
-                [alt]="item.product.name">
+            <div class="item-icon">
+              <mat-icon>inventory_2</mat-icon>
             </div>
 
-            <div class="item-details">
-              <h3>{{ item.product.name }}</h3>
-              <p class="item-sku">SKU: {{ item.product.sku }}</p>
-              <p class="item-stock">
-                <mat-icon [class.low-stock]="item.product.stock_quantity < 10">inventory</mat-icon>
-                <span [class.low-stock]="item.product.stock_quantity < 10">
-                  {{ item.product.stock_quantity }} disponibles
-                </span>
-              </p>
-            </div>
-
-            <div class="item-quantity">
-              <label>Cantidad:</label>
-              <div class="quantity-controls">
-                <button 
-                  mat-icon-button 
-                  (click)="updateQuantity(item, item.quantity - 1)"
-                  [disabled]="item.quantity <= 1 || updatingItem === item.id">
-                  <mat-icon>remove</mat-icon>
-                </button>
+            <div class="item-info">
+              <h3 class="product-name">{{ item.product_name }}</h3>
+              
+              <div class="product-details">
+                <div class="detail-item">
+                  <span class="detail-label">Cantidad:</span>
+                  <span class="detail-value">{{ item.quantity }}</span>
+                </div>
                 
-                <input 
-                  type="number" 
-                  class="quantity-input"
-                  [value]="item.quantity"
-                  (change)="updateQuantity(item, +$any($event.target).value)"
-                  [disabled]="updatingItem === item.id"
-                  min="1"
-                  [max]="item.product.stock_quantity">
+                <div class="detail-item">
+                  <span class="detail-label">Precio unitario:</span>
+                  <span class="detail-value">${{ item.price_at_addition.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
+                </div>
                 
-                <button 
-                  mat-icon-button 
-                  (click)="updateQuantity(item, item.quantity + 1)"
-                  [disabled]="item.quantity >= item.product.stock_quantity || updatingItem === item.id">
-                  <mat-icon>add</mat-icon>
-                </button>
+                <div class="detail-item subtotal-item">
+                  <span class="detail-label">Subtotal:</span>
+                  <span class="detail-value subtotal-value">${{ (item.price_at_addition * item.quantity).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
+                </div>
               </div>
-            </div>
-
-            <div class="item-price">
-              <p class="price-label">Precio unitario:</p>
-              <p class="unit-price">${{ item.price_at_addition.toLocaleString('es-CO') }}</p>
-              <p class="total-label">Subtotal:</p>
-              <p class="item-total">${{ (item.price_at_addition * item.quantity).toLocaleString('es-CO') }}</p>
-            </div>
-
-            <div class="item-actions">
-              <button 
-                mat-icon-button 
-                color="warn"
-                matTooltip="Eliminar"
-                (click)="removeItem(item)"
-                [disabled]="updatingItem === item.id">
-                <mat-icon>delete</mat-icon>
-              </button>
             </div>
 
             <mat-divider *ngIf="!last"></mat-divider>
@@ -120,26 +82,9 @@
         <mat-divider></mat-divider>
 
         <mat-card-content>
-          <div class="summary-row">
-            <span>Subtotal:</span>
-            <span>${{ cart.subtotal.toLocaleString('es-CO') }}</span>
-          </div>
-
-          <div class="summary-row">
-            <span>Impuestos (IVA):</span>
-            <span>${{ cart.tax.toLocaleString('es-CO') }}</span>
-          </div>
-
-          <div class="summary-row">
-            <span>Envío:</span>
-            <span>${{ cart.shipping_cost.toLocaleString('es-CO') }}</span>
-          </div>
-
-          <mat-divider></mat-divider>
-
           <div class="summary-total">
             <span>Total:</span>
-            <span>${{ cart.total.toLocaleString('es-CO') }}</span>
+            <span class="total-value">${{ cart.subtotal.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
           </div>
 
           <button 
@@ -147,7 +92,7 @@
             color="primary" 
             class="checkout-btn"
             (click)="proceedToCheckout()">
-            <mat-icon>payment</mat-icon>
+            <mat-icon>credit_card</mat-icon>
             Proceder al Pago
           </button>
 
@@ -156,12 +101,12 @@
             color="primary"
             class="continue-btn"
             (click)="continueShopping()">
-            <mat-icon>arrow_back</mat-icon>
+            <mat-icon>shopping_bag</mat-icon>
             Seguir Comprando
           </button>
 
           <div class="security-badge">
-            <mat-icon>verified_user</mat-icon>
+            <mat-icon>shield</mat-icon>
             <span>Compra segura y protegida</span>
           </div>
         </mat-card-content>

@@ -105,10 +105,10 @@
             <mat-card-content>
               <!-- Order Summary -->
               <div class="review-section">
-                <h3><mat-icon>shopping_cart</mat-icon> Productos ({{ cart.items.length }})</h3>
+                <h3><mat-icon>shopping_cart</mat-icon> Productos ({{ cart.total_items }})</h3>
                 <div *ngFor="let item of cart.items" class="review-item">
-                  <span>{{ item.product.name }} (x{{ item.quantity }})</span>
-                  <span>${{ (item.price_at_addition * item.quantity).toLocaleString('es-CO') }}</span>
+                  <span>{{ item.product_name }} (x{{ item.quantity }})</span>
+                  <span>${{ (item.price_at_addition * item.quantity).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
                 </div>
               </div>
 
@@ -134,10 +134,7 @@
 
               <!-- Total -->
               <div class="review-total">
-                <div class="total-row"><span>Subtotal:</span><span>${{ cart.subtotal.toLocaleString('es-CO') }}</span></div>
-                <div class="total-row"><span>Impuestos:</span><span>${{ cart.tax.toLocaleString('es-CO') }}</span></div>
-                <div class="total-row"><span>Envío:</span><span>${{ cart.shipping_cost.toLocaleString('es-CO') }}</span></div>
-                <div class="total-final"><span>Total:</span><span>${{ cart.total.toLocaleString('es-CO') }}</span></div>
+                <div class="total-final"><span>Total a Pagar:</span><span>${{ cart.subtotal.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span></div>
               </div>
 
               <div class="step-actions">
@@ -167,11 +164,7 @@
         </mat-card-header>
         <mat-divider></mat-divider>
         <mat-card-content>
-          <div class="summary-row"><span>Subtotal:</span><span>${{ cart.subtotal.toLocaleString('es-CO') }}</span></div>
-          <div class="summary-row"><span>Impuestos:</span><span>${{ cart.tax.toLocaleString('es-CO') }}</span></div>
-          <div class="summary-row"><span>Envío:</span><span>${{ cart.shipping_cost.toLocaleString('es-CO') }}</span></div>
-          <mat-divider></mat-divider>
-          <div class="summary-total"><span>Total:</span><span>${{ cart.total.toLocaleString('es-CO') }}</span></div>
+          <div class="summary-total"><span>Total:</span><span>${{ cart.subtotal.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span></div>
           
           <button mat-stroked-button (click)="backToCart()" class="back-btn">
             <mat-icon>arrow_back</mat-icon> Volver al Carrito
