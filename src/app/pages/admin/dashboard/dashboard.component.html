@@ -1,0 +1,71 @@
+<div class="admin-container">
+  <mat-sidenav-container class="sidenav-container">
+    <!-- Sidebar -->
+    <mat-sidenav
+      #sidenav
+      mode="side"
+      [opened]="sidenavOpened"
+      class="admin-sidenav">
+      
+      <!-- Sidebar Header -->
+      <div class="sidenav-header">
+        <div class="brand">
+          <mat-icon class="brand-icon">shield</mat-icon>
+          <div class="brand-info">
+            <h2 class="brand-title">Admin Panel</h2>
+            <p class="brand-subtitle">DaviStore</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Menu -->
+      <mat-nav-list class="nav-list">
+        <a
+          mat-list-item
+          *ngFor="let item of menuItems"
+          [routerLink]="item.route"
+          [class.active]="isActiveRoute(item.route)"
+          class="nav-item">
+          <mat-icon matListItemIcon class="nav-icon">{{ item.icon }}</mat-icon>
+          <span matListItemTitle class="nav-label">{{ item.label }}</span>
+          <span matListItemLine class="nav-description">{{ item.description }}</span>
+        </a>
+      </mat-nav-list>
+
+      <!-- Sidebar Footer -->
+      <div class="sidenav-footer">
+        <div class="user-info">
+          <mat-icon>account_circle</mat-icon>
+          <div class="user-details" *ngIf="currentUser">
+            <p class="user-name">{{ currentUser.first_name }} {{ currentUser.last_name }}</p>
+            <p class="user-role">Administrador</p>
+          </div>
+        </div>
+        <button mat-icon-button (click)="onLogout()" matTooltip="Cerrar sesión">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </mat-sidenav>
+
+    <!-- Main Content -->
+    <mat-sidenav-content class="main-content">
+      <!-- Top Toolbar -->
+      <mat-toolbar class="top-toolbar">
+        <button mat-icon-button (click)="toggleSidenav()" class="menu-button">
+          <mat-icon>menu</mat-icon>
+        </button>
+        
+        <span class="toolbar-spacer"></span>
+        
+        <button mat-icon-button routerLink="/" matTooltip="Volver al sitio">
+          <mat-icon>home</mat-icon>
+        </button>
+      </mat-toolbar>
+
+      <!-- Content Area -->
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

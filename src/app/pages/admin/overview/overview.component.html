@@ -1,0 +1,91 @@
+<div class="overview-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <mat-icon class="header-icon">dashboard</mat-icon>
+      <div>
+        <h1 class="page-title">Panel de Administración</h1>
+        <p class="page-subtitle">Bienvenido al centro de control de DaviStore</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-section">
+    <h2 class="section-title">Estadísticas Generales</h2>
+    <div class="stats-grid">
+      <mat-card class="stat-card" *ngFor="let stat of stats">
+        <mat-card-content>
+          <div class="stat-header">
+            <div class="stat-icon-wrapper" [style.backgroundColor]="stat.color + '20'">
+              <mat-icon [style.color]="stat.color">{{ stat.icon }}</mat-icon>
+            </div>
+            <div class="stat-trend" [class.trend-up]="stat.trendUp" *ngIf="stat.trend">
+              <mat-icon>{{ stat.trendUp ? 'trending_up' : 'trending_flat' }}</mat-icon>
+              <span>{{ stat.trend }}</span>
+            </div>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-value">{{ stat.value }}</h3>
+            <p class="stat-title">{{ stat.title }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="actions-section">
+    <h2 class="section-title">Acciones Rápidas</h2>
+    <div class="actions-grid">
+      <mat-card class="action-card" *ngFor="let action of quickActions">
+        <mat-card-content>
+          <div class="action-icon-wrapper" [style.backgroundColor]="action.color + '20'">
+            <mat-icon [style.color]="action.color" class="action-icon">{{ action.icon }}</mat-icon>
+          </div>
+          <h3 class="action-title">{{ action.title }}</h3>
+          <p class="action-description">{{ action.description }}</p>
+          <button 
+            mat-raised-button 
+            [routerLink]="action.route"
+            class="action-button"
+            [style.background]="action.color">
+            Ir
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Quick Info -->
+  <div class="info-section">
+    <mat-card class="info-card">
+      <mat-card-content>
+        <div class="info-header">
+          <mat-icon class="info-icon">info</mat-icon>
+          <h3 class="info-title">Información</h3>
+        </div>
+        <p class="info-text">
+          Desde este panel puedes gestionar todos los aspectos de tu tienda online:
+          productos, categorías, órdenes y usuarios. Utiliza el menú lateral para 
+          navegar entre las diferentes secciones.
+        </p>
+        <div class="info-features">
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Gestión completa de productos y categorías</span>
+          </div>
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Control de órdenes en tiempo real</span>
+          </div>
+          <div class="feature-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Administración de usuarios y permisos</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -36,6 +36,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
   currentUser: User | null = null;
   userFullName = '';
+  isAdmin = false;
 
   ngOnInit(): void {
     // Suscribirse al estado de autenticación
@@ -52,8 +53,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.currentUser = user;
         if (user) {
           this.userFullName = `${user.first_name} ${user.last_name}`;
+          this.isAdmin = this.authService.isAdmin();
         } else {
           this.userFullName = '';
+          this.isAdmin = false;
         }
       });
   }
