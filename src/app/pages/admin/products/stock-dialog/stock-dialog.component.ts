@@ -79,10 +79,9 @@ export class StockDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.stockForm.valid) {
-      const formValue = this.stockForm.value;
+      // El backend espera 'quantity' no 'stock'
       this.dialogRef.close({
-        stock: this.newStock,
-        operation: formValue.operation
+        quantity: this.newStock
       });
     }
   }

@@ -239,11 +239,14 @@ export class ProductsComponent implements OnInit {
           if (response.success) {
             this.showMessage('Producto eliminado exitosamente', 'success');
             this.loadProducts();
+          } else {
+            this.showMessage('Error al eliminar producto', 'error');
+            this.loading = false;
           }
         },
         error: (error) => {
           console.error('Error al eliminar producto:', error);
-          this.showMessage(error.message || 'Error al eliminar producto', 'error');
+          this.showMessage(error.error?.message || error.message || 'Error al eliminar producto', 'error');
           this.loading = false;
         }
       });

@@ -128,11 +128,14 @@ export class CategoriesComponent implements OnInit {
           if (response.success) {
             this.showMessage('Categoría eliminada exitosamente', 'success');
             this.loadCategories();
+          } else {
+            this.showMessage('Error al eliminar categoría', 'error');
+            this.loading = false;
           }
         },
         error: (error) => {
           console.error('Error al eliminar categoría:', error);
-          this.showMessage(error.message || 'Error al eliminar categoría', 'error');
+          this.showMessage(error.error?.message || error.message || 'Error al eliminar categoría', 'error');
           this.loading = false;
         }
       });
