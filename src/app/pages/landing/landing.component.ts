@@ -65,11 +65,6 @@ export class LandingComponent {
     }
   ];
 
-  onShopNow(): void {
-    // TODO: Implementar navegación a productos
-    console.log('Navigate to products');
-  }
-
   onExploreCategory(category: string): void {
     // TODO: Implementar navegación a categoría específica
     console.log('Explore category:', category);
