@@ -1,0 +1,183 @@
+<div class="checkout-container">
+  <h1><mat-icon>payment</mat-icon> Finalizar Compra</h1>
+
+  <div *ngIf="loading" class="loading">
+    <mat-spinner></mat-spinner>
+    <p>Cargando...</p>
+  </div>
+
+  <div *ngIf="!loading && cart" class="checkout-content">
+    <div class="checkout-forms">
+      <mat-stepper [linear]="true" #stepper>
+        <!-- Step 1: Shipping Address -->
+        <mat-step [stepControl]="shippingForm">
+          <form [formGroup]="shippingForm">
+            <ng-template matStepLabel>Dirección de Envío</ng-template>
+            
+            <mat-card>
+              <mat-card-content>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Dirección</mat-label>
+                  <input matInput formControlName="address" placeholder="Calle, número, etc.">
+                  <mat-icon matPrefix>home</mat-icon>
+                </mat-form-field>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Ciudad</mat-label>
+                    <input matInput formControlName="city">
+                    <mat-icon matPrefix>location_city</mat-icon>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Departamento/Estado</mat-label>
+                    <input matInput formControlName="state">
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Código Postal</mat-label>
+                    <input matInput formControlName="zip">
+                    <mat-icon matPrefix>markunread_mailbox</mat-icon>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>País</mat-label>
+                    <input matInput formControlName="country">
+                    <mat-icon matPrefix>public</mat-icon>
+                  </mat-form-field>
+                </div>
+
+                <button mat-raised-button color="primary" matStepperNext>
+                  Continuar <mat-icon>arrow_forward</mat-icon>
+                </button>
+              </mat-card-content>
+            </mat-card>
+          </form>
+        </mat-step>
+
+        <!-- Step 2: Payment Method -->
+        <mat-step [stepControl]="paymentForm">
+          <form [formGroup]="paymentForm">
+            <ng-template matStepLabel>Método de Pago</ng-template>
+            
+            <mat-card>
+              <mat-card-content>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Método de Pago</mat-label>
+                  <mat-select formControlName="payment_method">
+                    <mat-option *ngFor="let method of paymentMethods" [value]="method.value">
+                      <mat-icon>{{ method.icon }}</mat-icon>
+                      {{ method.label }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matPrefix>payment</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Notas adicionales (opcional)</mat-label>
+                  <textarea matInput formControlName="notes" rows="3" placeholder="Instrucciones de entrega, etc."></textarea>
+                  <mat-icon matPrefix>note</mat-icon>
+                </mat-form-field>
+
+                <div class="step-actions">
+                  <button mat-button matStepperPrevious>
+                    <mat-icon>arrow_back</mat-icon> Atrás
+                  </button>
+                  <button mat-raised-button color="primary" matStepperNext>
+                    Revisar Pedido <mat-icon>arrow_forward</mat-icon>
+                  </button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </form>
+        </mat-step>
+
+        <!-- Step 3: Review & Confirm -->
+        <mat-step>
+          <ng-template matStepLabel>Confirmar</ng-template>
+          
+          <mat-card class="review-card">
+            <mat-card-header>
+              <mat-card-title>Revisa tu Pedido</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <!-- Order Summary -->
+              <div class="review-section">
+                <h3><mat-icon>shopping_cart</mat-icon> Productos ({{ cart.items.length }})</h3>
+                <div *ngFor="let item of cart.items" class="review-item">
+                  <span>{{ item.product.name }} (x{{ item.quantity }})</span>
+                  <span>${{ (item.price_at_addition * item.quantity).toLocaleString('es-CO') }}</span>
+                </div>
+              </div>
+
+              <mat-divider></mat-divider>
+
+              <!-- Shipping Address -->
+              <div class="review-section">
+                <h3><mat-icon>local_shipping</mat-icon> Dirección de Envío</h3>
+                <p>{{ shippingForm.value.address }}</p>
+                <p>{{ shippingForm.value.city }}, {{ shippingForm.value.state }} {{ shippingForm.value.zip }}</p>
+                <p>{{ shippingForm.value.country }}</p>
+              </div>
+
+              <mat-divider></mat-divider>
+
+              <!-- Payment Method -->
+              <div class="review-section">
+                <h3><mat-icon>payment</mat-icon> Método de Pago</h3>
+                <p>{{ getPaymentMethodLabel(paymentForm.value.payment_method) }}</p>
+              </div>
+
+              <mat-divider></mat-divider>
+
+              <!-- Total -->
+              <div class="review-total">
+                <div class="total-row"><span>Subtotal:</span><span>${{ cart.subtotal.toLocaleString('es-CO') }}</span></div>
+                <div class="total-row"><span>Impuestos:</span><span>${{ cart.tax.toLocaleString('es-CO') }}</span></div>
+                <div class="total-row"><span>Envío:</span><span>${{ cart.shipping_cost.toLocaleString('es-CO') }}</span></div>
+                <div class="total-final"><span>Total:</span><span>${{ cart.total.toLocaleString('es-CO') }}</span></div>
+              </div>
+
+              <div class="step-actions">
+                <button mat-button matStepperPrevious>
+                  <mat-icon>arrow_back</mat-icon> Atrás
+                </button>
+                <button 
+                  mat-raised-button 
+                  color="primary" 
+                  (click)="placeOrder()"
+                  [disabled]="processingOrder">
+                  <mat-spinner *ngIf="processingOrder" diameter="20"></mat-spinner>
+                  <span *ngIf="!processingOrder"><mat-icon>check_circle</mat-icon> Realizar Pedido</span>
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-step>
+      </mat-stepper>
+    </div>
+
+    <!-- Summary Sidebar -->
+    <div class="checkout-summary">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Resumen</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div class="summary-row"><span>Subtotal:</span><span>${{ cart.subtotal.toLocaleString('es-CO') }}</span></div>
+          <div class="summary-row"><span>Impuestos:</span><span>${{ cart.tax.toLocaleString('es-CO') }}</span></div>
+          <div class="summary-row"><span>Envío:</span><span>${{ cart.shipping_cost.toLocaleString('es-CO') }}</span></div>
+          <mat-divider></mat-divider>
+          <div class="summary-total"><span>Total:</span><span>${{ cart.total.toLocaleString('es-CO') }}</span></div>
+          
+          <button mat-stroked-button (click)="backToCart()" class="back-btn">
+            <mat-icon>arrow_back</mat-icon> Volver al Carrito
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

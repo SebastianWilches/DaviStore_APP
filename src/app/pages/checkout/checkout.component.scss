@@ -1,0 +1,140 @@
+.checkout-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: calc(100vh - 64px);
+
+  h1 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    mat-icon { font-size: 2rem; color: #C81E1E; }
+  }
+
+  @media (max-width: 768px) { padding: 1rem; }
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 0;
+  mat-spinner { margin-bottom: 1rem; }
+}
+
+.checkout-content {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Forms
+.checkout-forms {
+  .full-width {
+    width: 100%;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    @media (max-width: 600px) { grid-template-columns: 1fr; }
+  }
+
+  mat-card {
+    padding: 1.5rem;
+    mat-card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+
+  .step-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+}
+
+// Review Card
+.review-card {
+  .review-section {
+    padding: 1rem 0;
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      mat-icon { font-size: 20px; }
+    }
+    .review-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      font-size: 0.95rem;
+    }
+    p {
+      margin: 0.25rem 0;
+      color: #666;
+    }
+  }
+
+  .review-total {
+    padding: 1rem 0;
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      font-size: 1rem;
+    }
+    .total-final {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 0.75rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #C81E1E;
+    }
+  }
+}
+
+// Summary Sidebar
+.checkout-summary {
+  mat-card {
+    position: sticky;
+    top: 80px;
+    mat-card-content {
+      padding: 1.5rem;
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        font-size: 1rem;
+      }
+      .summary-total {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #C81E1E;
+      }
+      .back-btn {
+        width: 100%;
+        margin-top: 1rem;
+        mat-icon { margin-right: 0.5rem; }
+      }
+    }
+  }
+}
+

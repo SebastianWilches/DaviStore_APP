@@ -30,12 +30,14 @@ export interface Product {
 export interface Category {
   id: string;
   name: string;
-  description?: string;
   slug: string;
-  parent_id?: string;
+  description?: string | null;
+  parent_id?: string | null;
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  parent_name?: string | null;
+  parent_slug?: string | null;
   children?: Category[];
 }
 
@@ -44,11 +46,13 @@ export interface Category {
  */
 export interface ProductFilters {
   search?: string;
+  category?: string;
   categoryId?: string;
   minPrice?: number;
   maxPrice?: number;
   inStock?: boolean;
   isActive?: boolean;
+  sortBy?: string;
   page?: number;
   limit?: number;
 }

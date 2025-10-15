@@ -1,0 +1,151 @@
+<div class="catalog-container">
+  <!-- Header -->
+  <div class="catalog-header">
+    <h1>Nuestros Productos</h1>
+    <p class="subtitle">Descubre nuestra amplia selección de productos</p>
+  </div>
+
+  <!-- Filters -->
+  <mat-card class="filters-card">
+    <div class="filters-container">
+      <!-- Search -->
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar productos</mat-label>
+        <input 
+          matInput 
+          [(ngModel)]="searchTerm" 
+          (keyup.enter)="onFilterChange()"
+          placeholder="Nombre, SKU o descripción">
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+
+      <!-- Category Filter -->
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Categoría</mat-label>
+        <mat-select [(ngModel)]="selectedCategory" (selectionChange)="onFilterChange()">
+          <mat-option value="">Todas las categorías</mat-option>
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matPrefix>category</mat-icon>
+      </mat-form-field>
+
+      <!-- Sort By -->
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Ordenar por</mat-label>
+        <mat-select [(ngModel)]="sortBy" (selectionChange)="onFilterChange()">
+          <mat-option value="name">Nombre</mat-option>
+          <mat-option value="price-asc">Precio: Menor a Mayor</mat-option>
+          <mat-option value="price-desc">Precio: Mayor a Menor</mat-option>
+          <mat-option value="newest">Más recientes</mat-option>
+        </mat-select>
+        <mat-icon matPrefix>sort</mat-icon>
+      </mat-form-field>
+
+      <!-- Filter Button -->
+      <button mat-raised-button color="primary" (click)="onFilterChange()" class="apply-filters-btn">
+        <mat-icon>filter_list</mat-icon>
+        Aplicar Filtros
+      </button>
+    </div>
+  </mat-card>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Cargando productos...</p>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="products-grid" *ngIf="!loading && products.length > 0">
+    <mat-card *ngFor="let product of products" class="product-card">
+      <!-- Product Image -->
+      <div class="product-image-container" (click)="viewProductDetail(product)">
+        <img 
+          [src]="product.image_url || 'assets/images/product-placeholder.png'" 
+          [alt]="product.name"
+          class="product-image">
+        
+        <!-- Stock Badge -->
+        <div class="stock-badge" [class.out-of-stock]="product.stock_quantity === 0">
+          <mat-icon>inventory_2</mat-icon>
+          <span *ngIf="product.stock_quantity > 0">{{ product.stock_quantity }} disponibles</span>
+          <span *ngIf="product.stock_quantity === 0">Agotado</span>
+        </div>
+
+        <!-- Category Badge -->
+        <mat-chip class="category-chip" *ngIf="product.category_name">
+          {{ product.category_name }}
+        </mat-chip>
+      </div>
+
+      <!-- Product Content -->
+      <mat-card-content>
+        <h3 class="product-name" (click)="viewProductDetail(product)">
+          {{ product.name }}
+        </h3>
+        
+        <p class="product-description">
+          {{ product.description.length > 100 ? 
+             (product.description.substring(0, 100) + '...') : 
+             product.description }}
+        </p>
+
+        <div class="product-sku">
+          <mat-icon>tag</mat-icon>
+          <span>SKU: {{ product.sku }}</span>
+        </div>
+      </mat-card-content>
+
+      <!-- Product Actions -->
+      <mat-card-actions class="product-actions">
+        <div class="price-section">
+          <span class="currency">$</span>
+          <span class="price">{{ product.price.toLocaleString('es-CO') }}</span>
+        </div>
+
+        <div class="action-buttons">
+          <button 
+            mat-icon-button 
+            color="primary"
+            matTooltip="Ver detalles"
+            (click)="viewProductDetail(product)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+
+          <button 
+            mat-raised-button 
+            color="primary"
+            [disabled]="product.stock_quantity === 0"
+            (click)="addToCart(product)">
+            <mat-icon>shopping_cart</mat-icon>
+            Agregar al carrito
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && products.length === 0">
+    <mat-icon>shopping_bag</mat-icon>
+    <h2>No se encontraron productos</h2>
+    <p>Intenta ajustar los filtros de búsqueda</p>
+    <button mat-raised-button color="primary" (click)="searchTerm = ''; selectedCategory = ''; onFilterChange()">
+      Limpiar Filtros
+    </button>
+  </div>
+
+  <!-- Pagination -->
+  <mat-card class="pagination-card" *ngIf="!loading && products.length > 0">
+    <mat-paginator
+      [length]="totalProducts"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[12, 24, 36, 48]"
+      [pageIndex]="currentPage - 1"
+      (page)="onPageChange($event)"
+      showFirstLastButtons>
+    </mat-paginator>
+  </mat-card>
+</div>

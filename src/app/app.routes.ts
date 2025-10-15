@@ -8,6 +8,9 @@ import { ProductsComponent } from './pages/admin/products/products.component';
 import { CategoriesComponent } from './pages/admin/categories/categories.component';
 import { OrdersComponent } from './pages/admin/orders/orders.component';
 import { UsersComponent } from './pages/admin/users/users.component';
+import { ProductsCatalogComponent } from './pages/products-catalog/products-catalog.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { authGuard, noAuthGuard } from './core/guards/auth.guard';
 import { adminGuard } from './core/guards/admin.guard';
 
@@ -56,8 +59,23 @@ export const routes: Routes = [
     ]
   },
   
+  // Rutas públicas de productos
+  {
+    path: 'products',
+    component: ProductsCatalogComponent
+  },
+  
   // Rutas protegidas (requieren autenticación)
-  // TODO: Agregar aquí las rutas de productos, carrito, checkout, perfil, etc.
+  {
+    path: 'cart',
+    component: CartComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'checkout',
+    component: CheckoutComponent,
+    canActivate: [authGuard]
+  },
   
   // Redirección de rutas no encontradas
   {

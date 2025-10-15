@@ -1,51 +1,47 @@
+/**
+ * Interfaces del Carrito de Compras
+ */
+
 import { Product } from './product.interface';
 
 /**
- * Interfaz de Carrito
- */
-export interface Cart {
-  id: string;
-  user_id: string;
-  status: CartStatus;
-  total_items: number;
-  subtotal: number;
-  created_at: string;
-  updated_at: string;
-  items: CartItem[];
-}
-
-/**
- * Interfaz de Item del Carrito
+ * Item del carrito
  */
 export interface CartItem {
   id: string;
   cart_id: string;
   product_id: string;
   quantity: number;
-  unit_price: number;
-  subtotal: number;
+  price_at_addition: number;
   created_at: string;
   updated_at: string;
   product: Product;
 }
 
 /**
- * Estados del carrito
+ * Carrito completo
  */
-export enum CartStatus {
-  ACTIVE = 'active',
-  COMPLETED = 'completed',
-  ABANDONED = 'abandoned'
+export interface Cart {
+  id: string;
+  user_id: string;
+  status: 'active' | 'completed' | 'abandoned';
+  created_at: string;
+  updated_at: string;
+  items: CartItem[];
+  subtotal: number;
+  tax: number;
+  shipping_cost: number;
+  total: number;
 }
 
 /**
  * Resumen del carrito
  */
 export interface CartSummary {
-  total_items: number;
+  itemCount: number;
   subtotal: number;
-  tax?: number;
-  shipping?: number;
+  tax: number;
+  shipping_cost: number;
   total: number;
 }
 
@@ -63,4 +59,3 @@ export interface AddToCartData {
 export interface UpdateCartItemData {
   quantity: number;
 }
-

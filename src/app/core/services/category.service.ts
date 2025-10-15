@@ -2,21 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ApiResponse } from '../interfaces';
+import { ApiResponse, Category } from '../interfaces';
 
-export interface Category {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  parent_id: string | null;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-  parent_name?: string | null;
-  parent_slug?: string | null;
-  children?: Category[];
-}
+// Re-exportar Category para mantener compatibilidad
+export { Category };
 
 export interface CreateCategoryData {
   name: string;

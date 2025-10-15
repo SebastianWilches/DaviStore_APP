@@ -1,0 +1,171 @@
+<div class="cart-container">
+  <!-- Header -->
+  <div class="cart-header">
+    <h1>
+      <mat-icon>shopping_cart</mat-icon>
+      Mi Carrito
+    </h1>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Cargando carrito...</p>
+  </div>
+
+  <!-- Empty Cart -->
+  <div *ngIf="!loading && (!cart || cart.items.length === 0)" class="empty-cart">
+    <mat-icon>shopping_cart</mat-icon>
+    <h2>Tu carrito está vacío</h2>
+    <p>¡Agrega productos para comenzar a comprar!</p>
+    <button mat-raised-button color="primary" (click)="continueShopping()">
+      <mat-icon>shopping_bag</mat-icon>
+      Ver Productos
+    </button>
+  </div>
+
+  <!-- Cart Content -->
+  <div *ngIf="!loading && cart && cart.items.length > 0" class="cart-content">
+    <!-- Cart Items -->
+    <div class="cart-items">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Productos ({{ cart.items.length }})</mat-card-title>
+          <button mat-button color="warn" (click)="clearCart()" class="clear-cart-btn">
+            <mat-icon>delete_sweep</mat-icon>
+            Vaciar Carrito
+          </button>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+          <div *ngFor="let item of cart.items; let last = last" class="cart-item">
+            <div class="item-image">
+              <img 
+                [src]="item.product.image_url || 'assets/images/product-placeholder.png'" 
+                [alt]="item.product.name">
+            </div>
+
+            <div class="item-details">
+              <h3>{{ item.product.name }}</h3>
+              <p class="item-sku">SKU: {{ item.product.sku }}</p>
+              <p class="item-stock">
+                <mat-icon [class.low-stock]="item.product.stock_quantity < 10">inventory</mat-icon>
+                <span [class.low-stock]="item.product.stock_quantity < 10">
+                  {{ item.product.stock_quantity }} disponibles
+                </span>
+              </p>
+            </div>
+
+            <div class="item-quantity">
+              <label>Cantidad:</label>
+              <div class="quantity-controls">
+                <button 
+                  mat-icon-button 
+                  (click)="updateQuantity(item, item.quantity - 1)"
+                  [disabled]="item.quantity <= 1 || updatingItem === item.id">
+                  <mat-icon>remove</mat-icon>
+                </button>
+                
+                <input 
+                  type="number" 
+                  class="quantity-input"
+                  [value]="item.quantity"
+                  (change)="updateQuantity(item, +$any($event.target).value)"
+                  [disabled]="updatingItem === item.id"
+                  min="1"
+                  [max]="item.product.stock_quantity">
+                
+                <button 
+                  mat-icon-button 
+                  (click)="updateQuantity(item, item.quantity + 1)"
+                  [disabled]="item.quantity >= item.product.stock_quantity || updatingItem === item.id">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="item-price">
+              <p class="price-label">Precio unitario:</p>
+              <p class="unit-price">${{ item.price_at_addition.toLocaleString('es-CO') }}</p>
+              <p class="total-label">Subtotal:</p>
+              <p class="item-total">${{ (item.price_at_addition * item.quantity).toLocaleString('es-CO') }}</p>
+            </div>
+
+            <div class="item-actions">
+              <button 
+                mat-icon-button 
+                color="warn"
+                matTooltip="Eliminar"
+                (click)="removeItem(item)"
+                [disabled]="updatingItem === item.id">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+
+            <mat-divider *ngIf="!last"></mat-divider>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="cart-summary">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Resumen del Pedido</mat-card-title>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span>${{ cart.subtotal.toLocaleString('es-CO') }}</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Impuestos (IVA):</span>
+            <span>${{ cart.tax.toLocaleString('es-CO') }}</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Envío:</span>
+            <span>${{ cart.shipping_cost.toLocaleString('es-CO') }}</span>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="summary-total">
+            <span>Total:</span>
+            <span>${{ cart.total.toLocaleString('es-CO') }}</span>
+          </div>
+
+          <button 
+            mat-raised-button 
+            color="primary" 
+            class="checkout-btn"
+            (click)="proceedToCheckout()">
+            <mat-icon>payment</mat-icon>
+            Proceder al Pago
+          </button>
+
+          <button 
+            mat-stroked-button 
+            color="primary"
+            class="continue-btn"
+            (click)="continueShopping()">
+            <mat-icon>arrow_back</mat-icon>
+            Seguir Comprando
+          </button>
+
+          <div class="security-badge">
+            <mat-icon>verified_user</mat-icon>
+            <span>Compra segura y protegida</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
