@@ -579,10 +579,12 @@ $white: #FFFFFF;
     .developer-name {
       color: $secondary-red;
       font-weight: 600;
+      text-decoration: none;
       transition: color 0.3s ease;
 
       &:hover {
         color: $primary-red-light;
+        text-decoration: underline;
       }
     }
   }

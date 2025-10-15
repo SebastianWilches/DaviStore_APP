@@ -2,18 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ApiResponse, Product } from '../interfaces';
+import { ApiResponse, Product, ProductFilters } from '../interfaces';
 
-export interface ProductFilters {
-  category?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  search?: string;
-  inStock?: boolean;
-  sortBy?: 'price_asc' | 'price_desc' | 'name_asc' | 'name_desc' | 'newest';
-  page?: number;
-  limit?: number;
-}
+// Re-exportar ProductFilters para mantener compatibilidad
+export { ProductFilters };
 
 // La respuesta del backend devuelve un array de productos directamente en data
 // y la paginación en meta.pagination

@@ -9,6 +9,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatDividerModule } from '@angular/material/divider';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
+import { CartService } from '../../core/services/cart.service';
 import { User } from '../../core/interfaces';
 
 @Component({
@@ -29,10 +30,11 @@ import { User } from '../../core/interfaces';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
+  private cartService = inject(CartService);
   private router = inject(Router);
   private destroy$ = new Subject<void>();
 
-  cartItemsCount = 0; // TODO: Conectar con servicio de carrito
+  cartItemsCount = 0;
   isAuthenticated = false;
   currentUser: User | null = null;
   userFullName = '';
@@ -44,6 +46,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(isAuth => {
         this.isAuthenticated = isAuth;
+        
+        // Inicializar contador de carrito cuando se autentica
+        if (isAuth) {
+          this.cartService.initializeCartCount();
+        } else {
+          this.cartService.updateCartCount(0);
+        }
       });
 
     // Suscribirse al usuario actual
@@ -58,6 +67,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
           this.userFullName = '';
           this.isAdmin = false;
         }
+      });
+
+    // Suscribirse al contador de carrito
+    this.cartService.cartItemCount
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(count => {
+        this.cartItemsCount = count;
       });
   }
 
@@ -85,12 +101,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    // TODO: Implementar navegación a carrito
     this.router.navigate(['/cart']);
   }
 
   onProfileClick(): void {
-    // TODO: Implementar navegación a perfil
+    // TODO: Implementar vista de perfil en futuras iteraciones
     this.router.navigate(['/profile']);
+  }
+
+  onProductsClick(): void {
+    this.router.navigate(['/products']);
   }
 }
