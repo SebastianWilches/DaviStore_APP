@@ -1,0 +1,81 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">
+    <mat-icon>edit</mat-icon>
+    Editar Usuario
+  </h2>
+
+  <mat-dialog-content class="dialog-content">
+    <!-- User Info -->
+    <div class="user-info">
+      <mat-icon class="user-avatar">account_circle</mat-icon>
+      <div class="user-details">
+        <p class="user-role">{{ user.role?.display_name || user.role?.name }}</p>
+        <p class="user-id">ID: {{ user.id.substring(0, 12) }}...</p>
+      </div>
+    </div>
+
+    <form [formGroup]="userForm" class="user-form">
+      
+      <!-- First Name -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="first_name" placeholder="Nombre del usuario" required>
+        <mat-icon matPrefix>person</mat-icon>
+        <mat-error *ngIf="userForm.get('first_name')?.hasError('required')">
+          El nombre es requerido
+        </mat-error>
+        <mat-error *ngIf="userForm.get('first_name')?.hasError('minlength')">
+          Mínimo 2 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Last Name -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Apellido</mat-label>
+        <input matInput formControlName="last_name" placeholder="Apellido del usuario" required>
+        <mat-icon matPrefix>person_outline</mat-icon>
+        <mat-error *ngIf="userForm.get('last_name')?.hasError('required')">
+          El apellido es requerido
+        </mat-error>
+        <mat-error *ngIf="userForm.get('last_name')?.hasError('minlength')">
+          Mínimo 2 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Email -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="usuario@ejemplo.com" required>
+        <mat-icon matPrefix>email</mat-icon>
+        <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+          El email es requerido
+        </mat-error>
+        <mat-error *ngIf="userForm.get('email')?.hasError('email')">
+          Email inválido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Phone -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="phone" placeholder="+1234567890">
+        <mat-icon matPrefix>phone</mat-icon>
+        <mat-hint>Opcional</mat-hint>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancel()" type="button">
+      Cancelar
+    </button>
+    <button 
+      mat-raised-button 
+      (click)="onSubmit()" 
+      [disabled]="!userForm.valid"
+      class="submit-button">
+      <mat-icon>save</mat-icon>
+      Guardar Cambios
+    </button>
+  </mat-dialog-actions>
+</div>

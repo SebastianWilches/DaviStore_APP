@@ -2,20 +2,15 @@ $primary-red: #E31E2D;
 $dark-text: #1A1A1A;
 $gray-text: #5A5A5A;
 $white: #FFFFFF;
+$light-gray: #F5F5F7;
 
 .section-container {
   animation: fadeIn 0.5s ease-in;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .section-header {
@@ -54,20 +49,192 @@ $white: #FFFFFF;
   }
 }
 
-.content-card {
+.filters-card {
+  margin-bottom: 24px;
   border-radius: 16px !important;
   border: 1px solid rgba(0, 0, 0, 0.06);
-  min-height: 400px;
 
-  .placeholder-content {
+  .filters-container {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 16px;
+
+    .filter-field {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .clear-button {
+      height: 48px;
+      border-radius: 10px !important;
+      color: $primary-red !important;
+      border-color: $primary-red !important;
+
+      mat-icon {
+        margin-right: 4px;
+      }
+    }
+
+    ::ng-deep .mat-mdc-form-field-icon-prefix {
+      color: $primary-red;
+      margin-right: 8px;
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 20px;
+
+  p {
+    font-size: 16px;
+    color: $gray-text;
+    margin: 0;
+  }
+}
+
+.table-card {
+  border-radius: 16px !important;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+
+  .table-container {
+    overflow-x: auto;
+
+    .users-table {
+      width: 100%;
+      background: $white;
+
+      th {
+        background: $light-gray;
+        font-weight: 600;
+        color: $dark-text;
+        padding: 16px;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      td {
+        padding: 16px;
+        color: $gray-text;
+        font-size: 14px;
+
+        .user-info {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+
+          .user-avatar {
+            font-size: 40px;
+            width: 40px;
+            height: 40px;
+            color: $primary-red;
+          }
+
+          div {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            strong {
+              color: $dark-text;
+              font-size: 15px;
+            }
+
+            .user-phone {
+              font-size: 13px;
+              color: $gray-text;
+            }
+          }
+        }
+
+        .email-text {
+          font-family: 'Courier New', monospace;
+          font-size: 13px;
+        }
+
+        .date-text {
+          font-size: 13px;
+        }
+      }
+
+      tr:hover {
+        background: rgba(227, 30, 45, 0.02);
+      }
+    }
+
+    .role-chip {
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      height: 28px !important;
+      padding: 0 12px !important;
+
+      &.role-admin {
+        background: rgba(156, 39, 176, 0.1) !important;
+        color: #9C27B0 !important;
+      }
+
+      &.role-customer {
+        background: rgba(33, 150, 243, 0.1) !important;
+        color: #2196F3 !important;
+      }
+    }
+
+    .status-chip {
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      height: 28px !important;
+      padding: 0 12px !important;
+
+      &.active {
+        background: rgba(76, 175, 80, 0.1) !important;
+        color: #4CAF50 !important;
+      }
+
+      &.inactive {
+        background: rgba(158, 158, 158, 0.1) !important;
+        color: #757575 !important;
+      }
+    }
+
+    .actions-header {
+      text-align: center;
+    }
+
+    .actions-cell {
+      text-align: center;
+
+      button {
+        transition: all 0.2s ease;
+
+        &:hover:not(:disabled) {
+          transform: scale(1.1);
+        }
+
+        &:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  .no-data {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 80px 40px !important;
+    padding: 80px 40px;
     text-align: center;
 
-    .placeholder-icon {
+    mat-icon {
       font-size: 80px;
       width: 80px;
       height: 80px;
@@ -75,24 +242,39 @@ $white: #FFFFFF;
       margin-bottom: 24px;
     }
 
-    .placeholder-title {
-      font-size: 24px;
-      font-weight: 600;
-      color: $dark-text;
-      margin: 0 0 12px 0;
-    }
-
-    .placeholder-text {
-      font-size: 16px;
-      line-height: 1.6;
+    p {
+      font-size: 18px;
       color: $gray-text;
       margin: 0;
-      max-width: 500px;
+    }
+  }
+
+  ::ng-deep .mat-mdc-paginator {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+}
+
+::ng-deep {
+  .snackbar-success {
+    background: #4CAF50 !important;
+    color: white !important;
+
+    button {
+      color: white !important;
+    }
+  }
+
+  .snackbar-error {
+    background: #f44336 !important;
+    color: white !important;
+
+    button {
+      color: white !important;
     }
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 968px) {
   .section-header {
     .header-content {
       .header-icon {
@@ -107,24 +289,25 @@ $white: #FFFFFF;
     }
   }
 
-  .content-card {
-    .placeholder-content {
-      padding: 60px 20px !important;
-
-      .placeholder-icon {
-        font-size: 64px;
-        width: 64px;
-        height: 64px;
-      }
-
-      .placeholder-title {
-        font-size: 20px;
-      }
-
-      .placeholder-text {
-        font-size: 15px;
+  .filters-card {
+    .filters-container {
+      .filter-field {
+        flex: 1 1 100%;
       }
     }
   }
 }
 
+@media (max-width: 600px) {
+  .table-card {
+    .table-container {
+      .users-table {
+        // Ocultar teléfono y fecha en móvil
+        th:nth-child(5),
+        td:nth-child(5) {
+          display: none;
+        }
+      }
+    }
+  }
+}

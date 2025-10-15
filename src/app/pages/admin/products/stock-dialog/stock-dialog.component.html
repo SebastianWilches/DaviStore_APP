@@ -1,0 +1,74 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">
+    <mat-icon>inventory</mat-icon>
+    Ajustar Stock
+  </h2>
+
+  <mat-dialog-content class="dialog-content">
+    <!-- Product Info -->
+    <div class="product-info">
+      <div class="product-details">
+        <h3>{{ product.name }}</h3>
+        <p class="sku">SKU: {{ product.sku }}</p>
+      </div>
+      <div class="current-stock">
+        <span class="label">Stock Actual:</span>
+        <span class="value">{{ product.stock_quantity }}</span>
+      </div>
+    </div>
+
+    <form [formGroup]="stockForm" class="stock-form">
+      
+      <!-- Operation Type -->
+      <mat-radio-group formControlName="operation" class="operation-group">
+        <mat-radio-button value="set" color="primary">
+          Establecer nuevo stock
+        </mat-radio-button>
+        <mat-radio-button value="add" color="primary">
+          Agregar unidades
+        </mat-radio-button>
+        <mat-radio-button value="subtract" color="primary">
+          Restar unidades
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <!-- Amount Input -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Cantidad</mat-label>
+        <input matInput type="number" formControlName="amount" placeholder="0" required min="0" step="1">
+        <mat-icon matPrefix>inventory_2</mat-icon>
+        <mat-error *ngIf="stockForm.get('amount')?.hasError('required')">
+          La cantidad es requerida
+        </mat-error>
+        <mat-error *ngIf="stockForm.get('amount')?.hasError('min')">
+          La cantidad debe ser mayor o igual a 0
+        </mat-error>
+      </mat-form-field>
+
+      <!-- New Stock Preview -->
+      <div class="stock-preview">
+        <mat-icon class="preview-icon">trending_flat</mat-icon>
+        <div class="preview-content">
+          <span class="preview-label">Nuevo Stock:</span>
+          <span class="preview-value" [class.zero]="newStock === 0" [class.positive]="newStock > 0">
+            {{ newStock }}
+          </span>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancel()" type="button">
+      Cancelar
+    </button>
+    <button 
+      mat-raised-button 
+      (click)="onSubmit()" 
+      [disabled]="!stockForm.valid"
+      class="submit-button">
+      <mat-icon>save</mat-icon>
+      Actualizar Stock
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,74 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">
+    <mat-icon>{{ isEditMode ? 'edit' : 'add' }}</mat-icon>
+    {{ isEditMode ? 'Editar Categoría' : 'Nueva Categoría' }}
+  </h2>
+
+  <mat-dialog-content class="dialog-content">
+    <form [formGroup]="categoryForm" class="category-form">
+      
+      <!-- Nombre -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre de la Categoría</mat-label>
+        <input matInput formControlName="name" placeholder="Ej: Electrónica" required>
+        <mat-icon matPrefix>label</mat-icon>
+        <mat-error *ngIf="categoryForm.get('name')?.hasError('required')">
+          El nombre es requerido
+        </mat-error>
+        <mat-error *ngIf="categoryForm.get('name')?.hasError('minlength')">
+          Mínimo 2 caracteres
+        </mat-error>
+        <mat-error *ngIf="categoryForm.get('name')?.hasError('maxlength')">
+          Máximo 100 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Descripción -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción</mat-label>
+        <textarea 
+          matInput 
+          formControlName="description" 
+          placeholder="Descripción opcional de la categoría"
+          rows="3"></textarea>
+        <mat-icon matPrefix>description</mat-icon>
+      </mat-form-field>
+
+      <!-- Categoría Padre -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Categoría Padre</mat-label>
+        <mat-select formControlName="parent_id" placeholder="Ninguna">
+          <mat-option [value]="null">Ninguna (Categoría Principal)</mat-option>
+          <mat-option *ngFor="let parent of availableParents" [value]="parent.id">
+            {{ parent.name }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matPrefix>account_tree</mat-icon>
+      </mat-form-field>
+
+      <!-- Estado Activo (solo en modo edición) -->
+      <div class="checkbox-container" *ngIf="isEditMode">
+        <mat-checkbox formControlName="is_active" color="primary">
+          Categoría Activa
+        </mat-checkbox>
+        <p class="checkbox-hint">
+          Las categorías inactivas no aparecerán en el sitio público
+        </p>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancel()" type="button">
+      Cancelar
+    </button>
+    <button 
+      mat-raised-button 
+      (click)="onSubmit()" 
+      [disabled]="!categoryForm.valid"
+      class="submit-button">
+      <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+      {{ isEditMode ? 'Guardar Cambios' : 'Crear Categoría' }}
+    </button>
+  </mat-dialog-actions>
+</div>

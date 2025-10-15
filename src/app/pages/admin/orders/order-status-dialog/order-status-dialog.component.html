@@ -1,0 +1,66 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">
+    <mat-icon>edit</mat-icon>
+    Actualizar Estado de la Orden
+  </h2>
+
+  <mat-dialog-content class="dialog-content">
+    <!-- Order Info -->
+    <div class="order-info">
+      <div class="info-row">
+        <span class="info-label">ID de Orden:</span>
+        <span class="info-value">{{ order.id.substring(0, 12) }}...</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Cliente:</span>
+        <span class="info-value">{{ order.user?.first_name }} {{ order.user?.last_name }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Total:</span>
+        <span class="info-value">${{ order.total_amount | number:'1.2-2' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Estado Actual:</span>
+        <span class="info-value current-status">{{ order.status }}</span>
+      </div>
+    </div>
+
+    <form [formGroup]="statusForm" class="status-form">
+      <!-- Status Select -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nuevo Estado</mat-label>
+        <mat-select formControlName="status" required>
+          <mat-option *ngFor="let status of statusOptions" [value]="status.value" [disabled]="status.disabled">
+            {{ status.label }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matPrefix>sync</mat-icon>
+        <mat-hint>Selecciona el nuevo estado de la orden</mat-hint>
+      </mat-form-field>
+
+      <!-- Status Flow Info -->
+      <div class="status-flow-info">
+        <mat-icon>info</mat-icon>
+        <p>
+          <strong>Flujo de Estados:</strong><br>
+          Pendiente → Procesando → Enviado → Entregado<br>
+          <small>Puedes cancelar en cualquier momento antes de que sea entregada.</small>
+        </p>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancel()" type="button">
+      Cancelar
+    </button>
+    <button 
+      mat-raised-button 
+      (click)="onSubmit()" 
+      [disabled]="!statusForm.valid || statusForm.value.status === order.status"
+      class="submit-button">
+      <mat-icon>save</mat-icon>
+      Actualizar Estado
+    </button>
+  </mat-dialog-actions>
+</div>

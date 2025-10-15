@@ -10,15 +10,146 @@
     </div>
   </div>
 
-  <!-- Content Placeholder -->
-  <mat-card class="content-card">
-    <mat-card-content class="placeholder-content">
-      <mat-icon class="placeholder-icon">shopping_bag</mat-icon>
-      <h3 class="placeholder-title">Módulo de Órdenes</h3>
-      <p class="placeholder-text">
-        En esta sección podrás ver, procesar y gestionar las órdenes de compra.<br>
-        La funcionalidad completa será implementada próximamente.
-      </p>
-    </mat-card-content>
+  <!-- Filters Card -->
+  <mat-card class="filters-card">
+    <div class="filters-container">
+      <!-- Status Filter -->
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Estado</mat-label>
+        <mat-select [(ngModel)]="statusFilter" (selectionChange)="onFilterChange()">
+          <mat-option value="">Todos los estados</mat-option>
+          <mat-option value="pending">Pendiente</mat-option>
+          <mat-option value="processing">Procesando</mat-option>
+          <mat-option value="shipped">Enviado</mat-option>
+          <mat-option value="delivered">Entregado</mat-option>
+          <mat-option value="cancelled">Cancelado</mat-option>
+        </mat-select>
+        <mat-icon matPrefix>filter_list</mat-icon>
+      </mat-form-field>
+
+      <!-- Clear Filters -->
+      <button 
+        mat-stroked-button 
+        (click)="clearFilters()" 
+        class="clear-button"
+        *ngIf="statusFilter">
+        <mat-icon>clear</mat-icon>
+        Limpiar
+      </button>
+    </div>
   </mat-card>
+
+  <!-- Loading Spinner -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando órdenes...</p>
+  </div>
+
+  <!-- Orders List -->
+  <div class="orders-list" *ngIf="!loading">
+    <mat-accordion *ngFor="let order of orders" class="order-accordion">
+      <mat-expansion-panel class="order-panel">
+        <mat-expansion-panel-header class="order-header">
+          <mat-panel-title class="order-title">
+            <div class="order-id">
+              <mat-icon>receipt</mat-icon>
+              <span class="id-text">{{ order.id.substring(0, 8) }}...</span>
+            </div>
+            <div class="order-user">
+              <mat-icon>person</mat-icon>
+              <span>{{ order.user?.first_name }} {{ order.user?.last_name }}</span>
+            </div>
+          </mat-panel-title>
+          <mat-panel-description class="order-description">
+            <div class="order-date">
+              <mat-icon>calendar_today</mat-icon>
+              <span>{{ order.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            <div class="order-total">
+              <span class="total-label">Total:</span>
+              <span class="total-value">${{ order.total_amount | number:'1.2-2' }}</span>
+            </div>
+            <mat-chip [class]="getStatusClass(order.status)" class="status-chip">
+              {{ getStatusLabel(order.status) }}
+            </mat-chip>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <!-- Order Details -->
+        <div class="order-details">
+          <!-- Order Info -->
+          <div class="order-info-section">
+            <h3 class="section-subtitle">Información de la Orden</h3>
+            <div class="info-grid">
+              <div class="info-item">
+                <mat-icon>location_on</mat-icon>
+                <div>
+                  <span class="info-label">Dirección de Envío:</span>
+                  <span class="info-value">{{ order.shipping_address }}</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <mat-icon>payment</mat-icon>
+                <div>
+                  <span class="info-label">Método de Pago:</span>
+                  <span class="info-value">{{ order.payment_method }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order Items -->
+          <div class="order-items-section">
+            <h3 class="section-subtitle">Productos</h3>
+            <div class="items-list">
+              <div class="item-row" *ngFor="let item of order.items">
+                <div class="item-info">
+                  <span class="item-name">{{ item.product_name }}</span>
+                  <span class="item-sku">SKU: {{ item.product_sku }}</span>
+                </div>
+                <div class="item-quantity">
+                  <span>x{{ item.quantity }}</span>
+                </div>
+                <div class="item-price">
+                  <span class="unit-price">${{ item.unit_price | number:'1.2-2' }}</span>
+                  <span class="subtotal">${{ item.subtotal | number:'1.2-2' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="order-actions">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              (click)="openStatusDialog(order)"
+              [disabled]="order.status === 'delivered' || order.status === 'cancelled'">
+              <mat-icon>edit</mat-icon>
+              Actualizar Estado
+            </button>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <!-- No Data Message -->
+    <mat-card class="no-data-card" *ngIf="orders.length === 0">
+      <div class="no-data">
+        <mat-icon>shopping_bag</mat-icon>
+        <p>No hay órdenes registradas</p>
+      </div>
+    </mat-card>
+
+    <!-- Pagination -->
+    <mat-paginator
+      *ngIf="orders.length > 0"
+      [length]="totalOrders"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 50]"
+      (page)="onPageChange($event)"
+      showFirstLastButtons
+      class="orders-paginator">
+    </mat-paginator>
+  </div>
 </div>
