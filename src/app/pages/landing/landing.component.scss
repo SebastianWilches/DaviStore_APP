@@ -518,6 +518,101 @@ $white: #FFFFFF;
 }
 
 // ==========================================
+// FOOTER
+// ==========================================
+.footer {
+  background: $dark-text;
+  color: $white;
+  padding: 50px 32px 30px;
+  margin-top: 0;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+
+  .footer-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    color: $primary-red;
+  }
+
+  .footer-brand-name {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, $primary-red 0%, $secondary-red 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.footer-info {
+  .footer-copyright {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 8px 0;
+  }
+
+  .footer-developer {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+
+    .developer-name {
+      color: $secondary-red;
+      font-weight: 600;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $primary-red-light;
+      }
+    }
+  }
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .footer-link {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $primary-red-light;
+    }
+  }
+
+  .footer-separator {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 12px;
+  }
+}
+
+// ==========================================
 // ANIMACIONES
 // ==========================================
 @keyframes slideInLeft {
@@ -682,5 +777,28 @@ $white: #FFFFFF;
   .features-grid,
   .categories-grid {
     grid-template-columns: 1fr;
+  }
+
+  .footer {
+    padding: 40px 20px 25px;
+
+    .footer-content {
+      gap: 20px;
+    }
+
+    .footer-brand {
+      .footer-brand-name {
+        font-size: 20px;
+      }
+    }
+
+    .footer-links {
+      flex-direction: column;
+      gap: 8px;
+
+      .footer-separator {
+        display: none;
+      }
+    }
   }
 }
