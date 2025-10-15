@@ -1,5 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.davistore.com/api/v1' // Actualizar con la URL de producción cuando esté disponible
+  apiUrl: 'https://tu-backend.railway.app/api/v1' // ⚠️ ACTUALIZAR con tu URL de Railway
 };
-
