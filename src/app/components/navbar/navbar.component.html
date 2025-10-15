@@ -1,0 +1,60 @@
+<mat-toolbar color="primary" class="navbar">
+  <div class="navbar-container">
+    <!-- Logo y nombre -->
+    <div class="navbar-brand">
+      <a routerLink="/" class="brand-link">
+        <mat-icon class="brand-icon">shopping_cart</mat-icon>
+        <span class="brand-name">DaviStore</span>
+      </a>
+    </div>
+
+    <!-- Menú de navegación -->
+    <nav class="navbar-menu">
+      <a routerLink="/" mat-button class="nav-link">Inicio</a>
+      <a routerLink="/products" mat-button class="nav-link">Productos</a>
+      <a routerLink="/categories" mat-button class="nav-link">Categorías</a>
+      <a routerLink="/about" mat-button class="nav-link">Nosotros</a>
+    </nav>
+
+    <!-- Acciones del usuario -->
+    <div class="navbar-actions">
+      <!-- Carrito -->
+      <button mat-icon-button (click)="onCartClick()" class="action-button" aria-label="Carrito de compras">
+        <mat-icon [matBadge]="cartItemsCount" [matBadgeHidden]="cartItemsCount === 0" matBadgeColor="accent">
+          shopping_cart
+        </mat-icon>
+      </button>
+
+      <!-- Usuario no autenticado -->
+      <div class="auth-buttons" *ngIf="!isAuthenticated">
+        <button mat-button (click)="onLogin()">Iniciar Sesión</button>
+        <button mat-raised-button color="accent" (click)="onRegister()">Registrarse</button>
+      </div>
+
+      <!-- Usuario autenticado -->
+      <div class="user-menu" *ngIf="isAuthenticated">
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" class="action-button" aria-label="Menú de usuario">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <div class="user-info">
+            <span class="user-name">{{ userFullName }}</span>
+          </div>
+          <button mat-menu-item (click)="onProfileClick()">
+            <mat-icon>person</mat-icon>
+            <span>Mi Perfil</span>
+          </button>
+          <button mat-menu-item routerLink="/orders">
+            <mat-icon>receipt_long</mat-icon>
+            <span>Mis Órdenes</span>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="onLogout()">
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar Sesión</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>

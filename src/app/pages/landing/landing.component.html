@@ -1,0 +1,86 @@
+<div class="landing-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">Bienvenido a DaviStore</h1>
+        <p class="hero-subtitle">
+          Tu tienda online de confianza. Encuentra los mejores productos a los mejores precios.
+        </p>
+        <div class="hero-actions">
+          <button mat-raised-button color="primary" class="cta-button" (click)="onShopNow()">
+            <mat-icon>shopping_bag</mat-icon>
+            Comprar Ahora
+          </button>
+          <button mat-stroked-button color="primary" class="cta-button-secondary" routerLink="/categories">
+            Ver Categorías
+          </button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <mat-icon class="hero-icon">shopping_cart</mat-icon>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="section-container">
+      <h2 class="section-title">¿Por qué elegir DaviStore?</h2>
+      <div class="features-grid">
+        <mat-card class="feature-card" *ngFor="let feature of features">
+          <mat-card-content>
+            <div class="feature-icon-wrapper">
+              <mat-icon class="feature-icon">{{ feature.icon }}</mat-icon>
+            </div>
+            <h3 class="feature-title">{{ feature.title }}</h3>
+            <p class="feature-description">{{ feature.description }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="categories-section">
+    <div class="section-container">
+      <h2 class="section-title">Explora por Categorías</h2>
+      <div class="categories-grid">
+        <mat-card 
+          class="category-card" 
+          *ngFor="let category of categories"
+          (click)="onExploreCategory(category.name)"
+          [style.borderTop]="'4px solid ' + category.color">
+          <mat-card-content>
+            <div class="category-icon-wrapper" [style.backgroundColor]="category.color + '20'">
+              <mat-icon class="category-icon" [style.color]="category.color">{{ category.icon }}</mat-icon>
+            </div>
+            <h3 class="category-name">{{ category.name }}</h3>
+            <button mat-button color="primary">
+              Explorar
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="cta-section">
+    <div class="cta-container">
+      <h2 class="cta-title">¿Listo para comenzar a comprar?</h2>
+      <p class="cta-description">
+        Únete a miles de clientes satisfechos y descubre una nueva forma de comprar online
+      </p>
+      <div class="cta-buttons">
+        <button mat-raised-button color="accent" class="cta-button-large" routerLink="/register">
+          Crear Cuenta Gratis
+        </button>
+        <button mat-button class="cta-button-text" routerLink="/products">
+          Explorar Productos
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
