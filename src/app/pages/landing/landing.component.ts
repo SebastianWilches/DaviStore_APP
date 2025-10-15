@@ -46,22 +46,22 @@ export class LandingComponent {
     {
       name: 'Electrónica',
       icon: 'devices',
-      color: '#3F51B5'
+      color: '#E31E2D'
     },
     {
       name: 'Moda',
       icon: 'checkroom',
-      color: '#E91E63'
+      color: '#FF4757'
     },
     {
       name: 'Hogar',
       icon: 'home',
-      color: '#4CAF50'
+      color: '#FF6B7A'
     },
     {
       name: 'Deportes',
       icon: 'sports_soccer',
-      color: '#FF9800'
+      color: '#C41E3A'
     }
   ];
 
